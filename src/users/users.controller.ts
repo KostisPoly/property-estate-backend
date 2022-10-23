@@ -1,10 +1,11 @@
-import { Controller, Post, Body, Get, Delete, Patch, Param, Query, UseInterceptors, Session } from '@nestjs/common';
+import { Controller, Post, Body, Get, Delete, Patch, Param, Query, Session, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { AuthService } from './auth.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { DefaultUserDto } from './dto/default-user.dto';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Serialize(DefaultUserDto)
 @Controller('auth')
@@ -35,6 +36,7 @@ export class UsersController {
         session.userId = null;
     }
 
+    @UseGuards(AuthGuard)
     @Get('/current-user')
     getCurrentUser(@Session() session: any) {
         return this.usersService.findOne(session.userId);
