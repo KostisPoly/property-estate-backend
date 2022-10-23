@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get, Delete, Patch, Param, Query, UseIntercepto
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
+import { AuthService } from './auth.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { DefaultUserDto } from './dto/default-user.dto';
 
@@ -9,14 +10,19 @@ import { DefaultUserDto } from './dto/default-user.dto';
 @Controller('auth')
 export class UsersController {
 
-    constructor( private usersService: UsersService) {}
+    constructor( private usersService: UsersService, private authService: AuthService) {}
 
     //Parsed query param is always a string
     //string id parseint(id) after query - Cast to int in service
 
     @Post('/signup')
     createUser(@Body() body: CreateUserDto) {
-        this.usersService.create( body.email, body.password)
+        return this.authService.createAuth(body.email, body.password);
+    }
+
+    @Post('/login')
+    login(@Body() body: CreateUserDto) {
+        return this.authService.validateAuth(body.email, body.password);
     }
 
     // @UseInterceptors(new SerializeInterceptor(DefaultUserDto))//Custom interceptor in get user with default user dto

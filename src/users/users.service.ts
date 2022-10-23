@@ -11,9 +11,9 @@ export class UsersService {
     }
 
     create(email: string, password: string){
-        const user = this.repository.create({ email, password });
+        const userObj = this.repository.create({ email, password });
 
-        return this.repository.save(user);
+        return this.repository.save(userObj);
     }
 
     findOne(id: number) {
