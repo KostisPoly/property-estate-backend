@@ -3,6 +3,11 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { plainToInstance } from 'class-transformer'
 
+//Wrapper function to call ( decorator in logic)
+export function Serialize(dto: any) {
+    return UseInterceptors(new SerializeInterceptor(dto)); //nest magic instanciate and return
+}
+
 //ts NestInterceptor implement in custom class interceptor
 export class SerializeInterceptor implements NestInterceptor{
 
