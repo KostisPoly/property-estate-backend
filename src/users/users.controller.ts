@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Delete, Patch, Param, Query, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, Body, Get, Delete, Patch, Param, Query, UseInterceptors, Session } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
@@ -16,13 +16,28 @@ export class UsersController {
     //string id parseint(id) after query - Cast to int in service
 
     @Post('/signup')
-    createUser(@Body() body: CreateUserDto) {
-        return this.authService.createAuth(body.email, body.password);
+    async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.createAuth(body.email, body.password);
+        session.userId = user.id;
+        return user;
     }
 
     @Post('/login')
-    login(@Body() body: CreateUserDto) {
-        return this.authService.validateAuth(body.email, body.password);
+    async login(@Body() body: CreateUserDto, @Session() session: any) {
+        const user = await this.authService.validateAuth(body.email, body.password);
+        session.userId = user.id;
+        return user;
+    }
+
+    @Post('/logout')
+    logout(@Session() session: any) {
+        //Set session to null 
+        session.userId = null;
+    }
+
+    @Get('/current-user')
+    getCurrentUser(@Session() session: any) {
+        return this.usersService.findOne(session.userId);
     }
 
     // @UseInterceptors(new SerializeInterceptor(DefaultUserDto))//Custom interceptor in get user with default user dto

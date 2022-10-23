@@ -17,6 +17,10 @@ export class UsersService {
     }
 
     findOne(id: number) {
+        //Refactor  return null if id not set ( session set to null)
+        if ( !id ) {
+            return null;
+        }
         return this.repository.findOneBy( { id });
     }
 

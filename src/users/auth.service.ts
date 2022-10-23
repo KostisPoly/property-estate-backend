@@ -28,6 +28,8 @@ export class AuthService {
         const hashedPass = salt + '-' + hash.toString();
     
         const user = await this.usersService.create(email, hashedPass);
+
+        return user;
     }
 
     async validateAuth(email: string, password: string) {
