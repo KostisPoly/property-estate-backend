@@ -21,7 +21,7 @@ export class AuthService {
         }
 
         //hash encrypt save to db
-        const salt = randomBytes(8).toString('hex');
+        const salt = randomBytes(16).toString('hex');
 
         const hash = await scryptPromise( password, salt, 16);
 
@@ -39,16 +39,20 @@ export class AuthService {
         const userObj = usersArray[0];
 
         if ( usersArray.length < 1 ) {
+            //RETURN THROW ?
             console.log('Not found by Email');
         }
 
         //salt and hash stored with - between
+        console.log(userObj.password);
         const [ salt, hashDb ] = userObj.password.split('-');
 
         const hash = await scryptPromise(password, salt, 16);
-
+        console.log(hashDb);
+        console.log(salt);
+        console.log(hash.toString());
         //Check matched hash
-        if( hash.toString() === hash) {
+        if( hash.toString() === hashDb) {
             return userObj;
         } else {
             console.log('Password mismatch');
