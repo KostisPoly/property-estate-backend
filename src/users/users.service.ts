@@ -32,7 +32,7 @@ export class UsersService {
         const userObj = await this.findOne(id);
 
         if ( !userObj ) {
-            console.log(`No use found by ID ${id}`);
+            console.log(`No user found by ID ${id}`);
         }
 
         //Assign attrs to target obj and save

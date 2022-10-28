@@ -18,4 +18,16 @@ export class ReportsService {
         report.userId = user;
         return this.repository.save(report);
     }
+
+    async changeVerification(id: string, verified: boolean) {
+        const report = await this.repository.findOneBy({id: parseInt(id)});
+        
+        if(!report) {
+            console.log(`No data found by ID ${id}`);
+        }
+
+        report.verified = verified;
+
+        return this.repository.save(report);
+    }
 }

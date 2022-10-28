@@ -14,6 +14,9 @@ export class Report {
     @Column()
     price: number;
 
+    @Column({ default: false })
+    verified: boolean;
+
     @Column()
     type: string;
 
