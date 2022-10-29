@@ -8,6 +8,9 @@ export class CreateReportDto {
     category: string;
 
     @IsNumber()
+    size: number;
+
+    @IsNumber()
     @Min(1900)
     @Max(2023)
     year: number;

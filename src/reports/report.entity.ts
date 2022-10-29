@@ -23,11 +23,8 @@ export class Report {
     @Column()
     category: string;
 
-    // @Column()
-    // address: string;
-
-    // @Column()
-    // size: number;
+    @Column()
+    size: number;
 
     @Column()
     year: number;

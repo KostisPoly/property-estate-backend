@@ -44,13 +44,10 @@ export class AuthService {
         }
 
         //salt and hash stored with - between
-        console.log(userObj.password);
         const [ salt, hashDb ] = userObj.password.split('-');
 
         const hash = await scryptPromise(password, salt, 16);
-        console.log(hashDb);
-        console.log(salt);
-        console.log(hash.toString());
+
         //Check matched hash
         if( hash.toString() === hashDb) {
             return userObj;
