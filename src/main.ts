@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(cookieSession({
-    keys: ['qwerty']
+    keys: [process.env.COOKIE_KEY]
   }))
 
   app.useGlobalPipes(

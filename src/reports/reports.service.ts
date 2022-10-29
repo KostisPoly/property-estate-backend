@@ -40,6 +40,7 @@ export class ReportsService {
             .andWhere('year - :year BETWEEN -5 AND 5', {year: valuation.year})
             .andWhere('lat - :lat BETWEEN -1 AND 1', {lat: valuation.lat})
             .andWhere('lng - :lng BETWEEN -1 AND 1', {lng: valuation.lng})
+            // .andWhere('verified IS TRUE')
             .orderBy('year', 'DESC')
             .getRawOne()
     }
