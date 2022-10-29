@@ -3,11 +3,17 @@ import { Request, Response, NextFunction } from 'express'
 import { UsersService } from '../users.service'
 import { User } from '../user.entity'
 
+interface CurrentUser {
+    id: number;
+    email: string;
+    admin: boolean;
+}
+
 //Modify global express request type adding currentuser
 declare global {
     namespace Express {
         interface Request {
-            currentUser?: User;
+            currentUser?: CurrentUser;
         }
     }
 }
@@ -21,8 +27,14 @@ export class CurrentUserMiddleware implements NestMiddleware {
 
         if (userId) {
             const user = await this.userService.findOne(userId);
-
-            req.currentUser = user;
+            
+            const currentUser : CurrentUser = {
+                id: user.id,
+                email: user.email,
+                admin: user.admin
+            }
+            
+            req.currentUser = currentUser;
         }
 
         next();

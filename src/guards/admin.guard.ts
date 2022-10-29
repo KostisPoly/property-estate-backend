@@ -12,6 +12,7 @@ export class AdminGuard implements CanActivate{
         if (!request.session.userId || !request.currentUser) {
             return false;
         }
+
         const admin = request.currentUser?.admin ?? false;
 
         return !admin;
