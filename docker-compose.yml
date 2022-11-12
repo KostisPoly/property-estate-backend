@@ -9,6 +9,8 @@ services:
       MYSQL_DATABASE: test
     ports:
       - "3306:3306"
+    volumes:
+      - .dbdata:/var/lib/mysql
   db-test:
     image: mysql:8
     restart: always
